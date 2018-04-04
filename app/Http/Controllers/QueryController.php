@@ -69,7 +69,7 @@ class QueryController extends Controller
             ORDER BY
                 employees.id");
         //dd($query);
-        return view('query_two')->with('datas',$query);
+        return view('query_two')->with('datas', $query);
     }
 
     public function query3()
@@ -101,8 +101,8 @@ class QueryController extends Controller
                     COUNT(projects.project_id) > 0
                 ORDER BY
                     employees.id");
-       // dd($query);
-        return view('query_three')->with('datas',$query);
+        // dd($query);
+        return view('query_three')->with('datas', $query);
     }
 
     public function query4()
@@ -128,12 +128,12 @@ class QueryController extends Controller
                           full_time_part_times.project_id = projects.project_id
                            AND projects.project_name = 'Googong Subdivision' 
                            AND full_time_part_times.emp_id = employees.id)");
-        return view('query_four')->with('datas',$query);
+        return view('query_four')->with('datas', $query);
     }
 
     public function query5()
     {
-        $query=DB::select("SELECT
+        $query = DB::select("SELECT
                             employees.name,
                             departments.dept_name,
                             employees.type_of_work,
@@ -151,8 +151,8 @@ class QueryController extends Controller
                             employees.id = salaries.emp_id AND employees.dept_id = departments.dept_id
                         ORDER BY
                             employees.id");
-     //   dd($query);
-        return view('query_five')->with('datas',$query);
+        //   dd($query);
+        return view('query_five')->with('datas', $query);
     }
 
     public function input()
@@ -250,5 +250,21 @@ class QueryController extends Controller
 
         }
 
+    }
+
+    public function get_salary($emp_id)
+    {
+        $query = DB::selectone("SELECT
+                            
+                            employees.type_of_work,
+                            salaries.basic,
+                            salaries.net_salary
+                            
+                        FROM
+                            employees,              
+                            salaries
+                        WHERE
+                            employees.id = salaries.emp_id AND employees.id=$emp_id");
+       echo json_encode($query);
     }
 }

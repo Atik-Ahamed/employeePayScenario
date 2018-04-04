@@ -3,7 +3,7 @@
     <div class="container">
         <div class="col-md-12 col-md-offset-2">
             <form enctype="multipart/form-data" class="form-horizontal" method="POST"
-                  action={{url('/insert_project')}}>
+                  action={{url('/insert_department')}}>
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Department Name

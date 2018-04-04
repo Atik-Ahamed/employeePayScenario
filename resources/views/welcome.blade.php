@@ -15,7 +15,10 @@
         @if(Auth::guard('admin')->check())
             <br>
             <a class="btn btn-success" href="{{url('/insert_department')}}">Insert Department</a>
-            <a class="btn btn-success" href="{{url('/insert_project')}}">Insert Department</a>
+            <a class="btn btn-success" href="{{url('/insert_project')}}">Insert Project</a>
+            <a class="btn btn-success" href="{{url('/insert_ft_pt_work')}}">Insert Full Time Part Time Work</a>
+            <a class="btn btn-success" href="{{url('/insert_salary')}}">Insert Salary</a>
+
             <br>
         @endif
 

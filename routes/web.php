@@ -61,3 +61,12 @@ Route::get('/insert_project',function (){
     return view('insert_project');
 });
 Route::post('/insert_project','AdminController@insert_project');
+
+Route::get('/insert_ft_pt_work',function (){
+    return view('insert_ft_pt_work');
+});
+Route::post('/insert_ft_pt_work','AdminController@insert_ft_pt_work');
+Route::get('/insert_salary',function (){
+    return view('insert_salary');
+});
+Route::get('/get_salary/{emp_id}','QueryController@get_salary');
