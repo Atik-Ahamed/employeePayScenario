@@ -23,12 +23,21 @@
 <body id="body">
 <div id="app">
     <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <a href="{{ url('/') }}" class="btn btn-dark">Home</a>
         @if(!Auth::guard('employee')->check()&&!Auth::guard('admin')->check())
             <a href="{{url('/employee/login')}}" class="btn btn-warning">employee login</a>
             <a href="{{url('/employee/register')}}" class="btn btn-warning">employee register</a>
             <a href="{{url('/admin/login')}}" class="btn btn-danger">admin login</a>
-            <a href="{{url('/admin/register')}}" class="btn btn-danger">admin register</a>
+            <!--<a href="{{url('/admin/register')}}" class="btn btn-danger">admin register</a>-->
         @endif
 
 

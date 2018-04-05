@@ -19,6 +19,7 @@ class EmployeeController extends Controller
     public function employee_edit_profile($emp_id)
     {
         $data = Employee::find($emp_id);
+
         return view('employee.emp_edit_profile')->with('data', $data);
     }
 
@@ -28,10 +29,16 @@ class EmployeeController extends Controller
         $emp->name = $request->emp_name;
         $emp->email = $request->emp_email;
         $emp->save();
+
         $add=Address::find($emp_id);
+        if($add==null){
+            $add=new Address();
+        }
+        $add->emp_id=$emp_id;
         $add->street_no=$request->emp_street_no;
         $add->street_name=$request->emp_street_name;
         $add->city=$request->emp_city;
+        $add->zip_code=$request->emp_zip_code;
         $add->save();
         $data = Employee::find($emp_id);
         return redirect(url('/employee/profile/'.$emp_id));

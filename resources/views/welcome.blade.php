@@ -18,6 +18,7 @@
             <a class="btn btn-success" href="{{url('/insert_project')}}">Insert Project</a>
             <a class="btn btn-success" href="{{url('/insert_ft_pt_work')}}">Insert Full Time Part Time Work</a>
             <a class="btn btn-success" href="{{url('/insert_salary')}}">Insert Salary</a>
+            <a class="btn btn-success" href="{{url('/assign_to_employee')}}">Assign To Employee</a>
 
             <br>
         @endif

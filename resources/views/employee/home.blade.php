@@ -25,21 +25,22 @@
             <tr>
                 <td>Employee email: {{$data->email}}</td>
             </tr>
-            <tr>
-                <td>street_no: {{$address->street_no}}</td>
-            </tr>
+            @if($address!=null)
+                <tr>
+                    <td>street_no: {{$address->street_no}}</td>
+                </tr>
 
-            <tr>
-                <td>street_name: {{$address->street_name}}</td>
-            </tr>
-            <tr>
-                <td>city: {{$address->city}}</td>
-            </tr>
-            <tr>
-                <td>zip_code: {{$address->zip_code}}</td>
-            </tr>
+                <tr>
+                    <td>street_name: {{$address->street_name}}</td>
+                </tr>
+                <tr>
+                    <td>city: {{$address->city}}</td>
+                </tr>
+                <tr>
+                    <td>zip_code: {{$address->zip_code}}</td>
+                </tr>
 
-
+            @endif
             <tbody>
 
             </tbody>

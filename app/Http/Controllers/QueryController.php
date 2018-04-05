@@ -60,7 +60,12 @@ class QueryController extends Controller
                 full_time_part_times,
                 departments
             WHERE
-                full_time_part_times.emp_id = employees.id AND full_time_part_times.dept_id = departments.dept_id AND departments.dept_name = 'Labor' AND projects.project_id = full_time_part_times.project_id AND projects.project_name = 'Googong Subdivision' AND projects.project_location = 'Googong'
+                full_time_part_times.emp_id = employees.id 
+                AND full_time_part_times.dept_id = departments.dept_id 
+                AND departments.dept_name = 'Labor' 
+                AND projects.project_id = full_time_part_times.project_id 
+                AND projects.project_name = 'Googong Subdivision' 
+                AND projects.project_location = 'Googong'
                
             GROUP BY
                 employees.id
@@ -108,7 +113,8 @@ class QueryController extends Controller
     public function query4()
     {
         $query = DB::select("SELECT
-                  DISTINCT employees.name
+                    DISTINCT employees.id,
+                   employees.name
                 FROM
                     employees,
                     projects,
@@ -117,9 +123,9 @@ class QueryController extends Controller
                     full_time_part_times.project_id = projects.project_id
                     AND projects.project_name = 'Burton Highway'
                     AND full_time_part_times.emp_id = employees.id
-                    AND employees.name
-                      IN (
-                        SELECT DISTINCT employees.name
+                    AND employees.id,employees.name IN 
+                      (
+                        SELECT  DISTINCT  employees.id,employees.name
                         FROM
                           employees,
                           projects,
@@ -266,5 +272,20 @@ class QueryController extends Controller
                         WHERE
                             employees.id = salaries.emp_id AND employees.id=$emp_id");
        echo json_encode($query);
+    }
+    public function get_project_name($id){
+        $name=Project::find($id);
+        echo $name->project_name;
+
+    }
+    public function get_employee_name($id){
+        $name=Employee::find($id);
+        echo $name->name;
+
+    }
+    public function get_department_name($id){
+        $name=Department::find($id);
+        echo $name->dept_name;
+
     }
 }

@@ -69,4 +69,12 @@ Route::post('/insert_ft_pt_work','AdminController@insert_ft_pt_work');
 Route::get('/insert_salary',function (){
     return view('insert_salary');
 });
+Route::post('/insert_salary','AdminController@insert_salary');
 Route::get('/get_salary/{emp_id}','QueryController@get_salary');
+Route::get('/assign_to_employee',function (){
+    return view('assign_to_employee');
+});
+Route::post('assign_to_employee','AdminController@assign_to_employee');
+Route::get('/get_project_name/{id}','QueryController@get_project_name');
+Route::get('/get_employee_name/{id}','QueryController@get_employee_name');
+Route::get('/get_department_name/{id}','QueryController@get_department_name');
