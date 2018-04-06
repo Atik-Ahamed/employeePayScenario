@@ -52,6 +52,24 @@ Route::get('/query/3','QueryController@query3');
 Route::get('/query/4','QueryController@query4');
 Route::get('/query/5','QueryController@query5');
 Route::get('/input','QueryController@input');
+
+Route::get('/query_preform/1',function (){
+    return view('query_one_pre_form');
+});
+Route::get('/query_preform/2',function (){
+    return view('query_two_pre_form');
+});
+Route::get('/query_preform/3',function (){
+    return view('query_three_pre_form');
+});
+Route::get('/query_preform/4',function (){
+    return view('query_four_pre_form');
+});
+
+
+
+
+
 Route::get('/insert_department',function (){
     return view('insert_dept');
 });

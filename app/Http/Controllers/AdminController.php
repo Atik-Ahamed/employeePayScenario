@@ -39,24 +39,50 @@ class AdminController extends Controller
         $ft_pt_work->num_of_hours = $request->num_of_hours;
         $ft_pt_work->works_date = $request->works_date;
         $ft_pt_work->save();
-        return redirect('/');
+
+        $emp = Employee::find($request->emp_id);
+        if ($emp->type_of_work =='P') {
+            $sal = Salary::find($request->emp_id);
+            if ($sal == null) {
+                $sal = new Salary();
+                $sal->emp_id = $request->emp_id;
+            }
+            $query = DB::selectOne(" SELECT
+                    SUM(
+                      full_time_part_times.num_of_hours
+                    ) AS hrs
+                FROM
+                    (
+                    SELECT
+                        full_time_part_times.num_of_hours
+                    FROM
+                        full_time_part_times
+                    WHERE
+                        full_time_part_times.emp_id = $request->emp_id
+                        AND full_time_part_times.works_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE()) full_time_part_times");
+
+            $bas = $sal->basic = $query->hrs * $emp->hourlyrate;
+            $sal->net_salary = $bas + 0.45 * $bas - (.09 * $bas + .15 * $bas);
+            $sal->save();
+            return redirect('/');
+        }
     }
 
     public function insert_salary(Request $request)
     {
-        $e=Employee::find($request->emp_id);
-      if($e->type_of_work=='F'){
-          $request->validate([
-              'basic'=>'numeric|min:5000',
-          ]);
-      }
+        $e = Employee::find($request->emp_id);
+        if ($e->type_of_work == 'F') {
+            $request->validate([
+                'basic' => 'numeric|min:5000',
+            ]);
+        }
         $emp = Salary::find($request->emp_id);
         if ($emp == null) {
             $emp = new Salary();
         }
         $emp->emp_id = $request->emp_id;
-        $bas=$emp->basic = $request->basic;
-        $emp->net_salary =  $bas + 0.45 * $bas - (.09 * $bas + .15 * $bas);
+        $bas = $emp->basic = $request->basic;
+        $emp->net_salary = $bas + 0.45 * $bas - (.09 * $bas + .15 * $bas);
         $emp->salary_date = $request->salary_date;
         $emp->save();
         return redirect('/');
@@ -68,19 +94,19 @@ class AdminController extends Controller
         $emp = Employee::find($request->emp_id);
         $emp->dept_id = $request->dept_id;
         if ($request->type_of_work == "F") {
-            $emp->type_of_work='F';
+            $emp->type_of_work = 'F';
             $emp->hourlyrate = null;
         } else {
             $request->validate([
                 'hourly_rate' => 'integer|required|min:25|max:60',
 
             ]);
-            $emp->type_of_work='P';
+            $emp->type_of_work = 'P';
             $emp->hourlyrate = $request->hourly_rate;
             $sal = Salary::find($request->emp_id);
-            if($sal==null){
-                $sal=new Salary();
-                $sal->emp_id=$request->emp_id;
+            if ($sal == null) {
+                $sal = new Salary();
+                $sal->emp_id = $request->emp_id;
             }
             $query = DB::selectOne(" SELECT
                     SUM(

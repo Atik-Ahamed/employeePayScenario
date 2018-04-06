@@ -6,7 +6,7 @@
             <tr>
                 <th scope="col">Employee Name</th>
                 <th scope="col">Per Week</th>
-
+                <th scope="col">Department Name</th>
             </tr>
             </thead>
 
@@ -18,6 +18,7 @@
 
                     <td>{{$data->name}}</td>
                     <td>{{$data->PerWeek." hours"}}</td>
+                    <td>{{$data->dept_name}}</td>
 
                 </tr>
 

@@ -21,7 +21,7 @@ use function Sodium\add;
 class QueryController extends Controller
 {
 
-    public function query1()
+    public function query1(Request $request)
     {
         $names = DB::select("SELECT
                                         employees.name,projects.project_name,projects.project_location,departments.dept_name
@@ -35,18 +35,18 @@ class QueryController extends Controller
                                         AND full_time_part_times.dept_id = departments.dept_id
                                         AND departments.dept_name = 'Engineering' 
                                         AND full_time_part_times.project_id = projects.project_id 
-                                        AND projects.project_name = 'Googong Subdivision' 
-                                        AND projects.project_location = 'Googong' 
+                                        AND projects.project_name = '$request->project_name'
+                                        AND projects.project_location = '$request->project_location'
                                         GROUP BY employees.id
                                         ");
 
         return view('query_one')->with('datas', $names);
     }
 
-    public function query2()
+    public function query2(Request $request)
     {
         $query = DB::select("SELECT
-                employees.name,
+                employees.name,departments.dept_name,
                 (
                     SUM(
                         full_time_part_times.num_of_hours
@@ -61,15 +61,13 @@ class QueryController extends Controller
                 departments
             WHERE
                 full_time_part_times.emp_id = employees.id 
-                AND full_time_part_times.dept_id = departments.dept_id 
-                AND departments.dept_name = 'Labor' 
+                AND employees.dept_id = departments.dept_id 
+                AND departments.dept_name = 'Labour' 
                 AND projects.project_id = full_time_part_times.project_id 
-                AND projects.project_name = 'Googong Subdivision' 
-                AND projects.project_location = 'Googong'
-               
-            GROUP BY
-                employees.id
-                HAVING  (  SUM(full_time_part_times.num_of_hours ) / COUNT(full_time_part_times.works_date ) ) * 5>20
+                AND projects.project_name = '$request->project_name' 
+                AND projects.project_location = '$request->project_location'
+                AND full_time_part_times.works_date BETWEEN '$request->pre_date' AND '$request->post_date'
+                HAVING  (  SUM(full_time_part_times.num_of_hours ) / COUNT(full_time_part_times.works_date ) ) * 5>$request->num_of_hours
             
             ORDER BY
                 employees.id");
@@ -112,28 +110,23 @@ class QueryController extends Controller
 
     public function query4()
     {
-        $query = DB::select("SELECT
-                    DISTINCT employees.id,
-                   employees.name
-                FROM
-                    employees,
-                    projects,
-                    full_time_part_times
-                WHERE
-                    full_time_part_times.project_id = projects.project_id
-                    AND projects.project_name = 'Burton Highway'
-                    AND full_time_part_times.emp_id = employees.id
-                    AND employees.id,employees.name IN 
-                      (
-                        SELECT  DISTINCT  employees.id,employees.name
-                        FROM
-                          employees,
-                          projects,
-                          full_time_part_times
-                        WHERE
-                          full_time_part_times.project_id = projects.project_id
-                           AND projects.project_name = 'Googong Subdivision' 
-                           AND full_time_part_times.emp_id = employees.id)");
+        $query = DB::select("SELECT DISTINCT
+    employees.name
+FROM
+    employees,
+    projects,
+    full_time_part_times
+WHERE
+    full_time_part_times.project_id = projects.project_id AND projects.project_name = 'Burton Highway' AND full_time_part_times.emp_id = employees.id AND employees.name IN(
+    SELECT DISTINCT
+        employees.name
+    FROM
+        employees,
+        projects,
+        full_time_part_times
+    WHERE
+        full_time_part_times.project_id = projects.project_id AND projects.project_name = 'Googong Subdivision' AND full_time_part_times.emp_id = employees.id
+)");
         return view('query_four')->with('datas', $query);
     }
 
@@ -271,20 +264,26 @@ class QueryController extends Controller
                             salaries
                         WHERE
                             employees.id = salaries.emp_id AND employees.id=$emp_id");
-       echo json_encode($query);
+        echo json_encode($query);
     }
-    public function get_project_name($id){
-        $name=Project::find($id);
+
+    public function get_project_name($id)
+    {
+        $name = Project::find($id);
         echo $name->project_name;
 
     }
-    public function get_employee_name($id){
-        $name=Employee::find($id);
+
+    public function get_employee_name($id)
+    {
+        $name = Employee::find($id);
         echo $name->name;
 
     }
-    public function get_department_name($id){
-        $name=Department::find($id);
+
+    public function get_department_name($id)
+    {
+        $name = Department::find($id);
         echo $name->dept_name;
 
     }

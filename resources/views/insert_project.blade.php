@@ -1,5 +1,5 @@
-@extends('layout')
-@section('content')
+@extends('admin.home')
+@section('admin_content')
     <div class="container">
         <div class="col-md-12 col-md-offset-2">
             <form enctype="multipart/form-data" class="form-horizontal" method="POST"
