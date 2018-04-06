@@ -75,7 +75,7 @@ class QueryController extends Controller
         return view('query_two')->with('datas', $query);
     }
 
-    public function query3()
+    public function query3(Request $request)
     {
         $query = DB::select("SELECT
                     employees.name,
@@ -95,8 +95,8 @@ class QueryController extends Controller
                     full_time_part_times.emp_id = employees.id 
                     AND full_time_part_times.dept_id = departments.dept_id 
                     AND projects.project_id = full_time_part_times.project_id 
-                    AND projects.project_location = 'Burton Canberra' 
-                    AND departments.dept_location != 'Canberra'
+                    AND projects.project_location = '$request->project_location' 
+                    AND departments.dept_location != '$request->dept_location'
                     AND full_time_part_times.emp_id=addresses.emp_id
                 GROUP BY
                     employees.id
@@ -108,7 +108,7 @@ class QueryController extends Controller
         return view('query_three')->with('datas', $query);
     }
 
-    public function query4()
+    public function query4(Request $request)
     {
         $query = DB::select("SELECT DISTINCT
     employees.name
@@ -117,7 +117,7 @@ FROM
     projects,
     full_time_part_times
 WHERE
-    full_time_part_times.project_id = projects.project_id AND projects.project_name = 'Burton Highway' AND full_time_part_times.emp_id = employees.id AND employees.name IN(
+    full_time_part_times.project_id = projects.project_id AND projects.project_name = '$request->project_name1' AND full_time_part_times.emp_id = employees.id AND employees.name IN(
     SELECT DISTINCT
         employees.name
     FROM
@@ -125,7 +125,7 @@ WHERE
         projects,
         full_time_part_times
     WHERE
-        full_time_part_times.project_id = projects.project_id AND projects.project_name = 'Googong Subdivision' AND full_time_part_times.emp_id = employees.id
+        full_time_part_times.project_id = projects.project_id AND projects.project_name = '$request->project_name2' AND full_time_part_times.emp_id = employees.id
 )");
         return view('query_four')->with('datas', $query);
     }
@@ -286,5 +286,35 @@ WHERE
         $name = Department::find($id);
         echo $name->dept_name;
 
+    }
+    public function delete_address($emp_id){
+        $ad=Address::find($emp_id);
+        $ad->delete();
+        return redirect(url('/all_addresses'));
+    }
+    public function delete_department($id){
+        $d=Department::find($id);
+        $d->delete();
+        return redirect(url('/all_departments'));
+    }
+    public function delete_employee($id){
+        $d=Employee::find($id);
+        $d->delete();
+        return redirect(url('/all_employees'));
+    }
+    public function delete_project($id){
+        $p=Project::find($id);
+        $p->delete();
+        return redirect(url('/all_projects'));
+    }
+    public function delete_salary($id){
+        $s=Salary::find($id);
+        $s->delete();
+        return redirect(url('all_salaries'));
+    }
+    public function delete_ft_pt($id){
+        $s=Full_time_part_time::find($id);
+        $s->delete();
+        return redirect(url('all_ft_pt'));
     }
 }

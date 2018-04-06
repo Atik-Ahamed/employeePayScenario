@@ -134,6 +134,9 @@
 
 
     @yield('content')
+        <br>
+        <br>
+        <br>
         <footer class="py-5 bg-dark">
             <div class="container">
                 <p class="m-0 text-center text-white">Created by 1503087,1503088,1503089,1503090,1503091,1503092</p>

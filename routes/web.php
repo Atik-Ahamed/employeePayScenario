@@ -11,6 +11,10 @@
 |
 */
 
+use App\Department;
+use App\Employee;
+use App\Project;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -96,3 +100,73 @@ Route::post('assign_to_employee','AdminController@assign_to_employee');
 Route::get('/get_project_name/{id}','QueryController@get_project_name');
 Route::get('/get_employee_name/{id}','QueryController@get_employee_name');
 Route::get('/get_department_name/{id}','QueryController@get_department_name');
+Route::get('/all_employees',function (){
+    $emp=Employee::all();
+    return view('all_employees')->with('datas',$emp);
+});
+Route::get('/all_departments',function (){
+    $dept=Department::all();
+    return view('all_departments')->with('datas',$dept);
+});
+Route::get('/all_projects',function (){
+    $proj=Project::all();
+    return view('all_projects')->with('datas',$proj);
+});
+Route::get('/all_salaries',function (){
+    $sal=DB::select("SELECT
+    employees.name,
+    salaries.emp_id,
+    salaries.basic,
+    salaries.net_salary,
+    salaries.salary_date
+FROM
+    employees,
+    salaries
+WHERE
+    employees.id = salaries.emp_id");
+    return view('all_salaries')->with('datas',$sal);
+});
+Route::get('/all_addresses',function (){
+    $ad=DB::select("SELECT
+    employees.name,
+    addresses.emp_id,
+    addresses.street_no,
+    addresses.street_name,
+    addresses.city,
+    addresses.zip_code
+FROM
+    employees,
+    addresses
+WHERE
+    employees.id = addresses.emp_id");
+    return view('all_addresses')->with('datas',$ad);
+});
+Route::get('/all_ft_pt',function (){
+    $ftpt=DB::select("SELECT
+   employees.name,
+   full_time_part_times.id,
+   full_time_part_times.emp_id,
+   full_time_part_times.project_id,
+   full_time_part_times.dept_id,
+   full_time_part_times.num_of_hours,
+   full_time_part_times.works_date,
+   projects.project_name,
+   departments.dept_name
+FROM
+    employees,
+    full_time_part_times,
+    projects,
+    departments
+WHERE
+    employees.id = full_time_part_times.emp_id
+     AND projects.project_id=full_time_part_times.project_id
+      AND full_time_part_times.dept_id=departments.dept_id");
+    return view('all_ft_pt')->with('datas',$ftpt);
+});
+Route::get('/address/delete/{emp_id}','QueryController@delete_address');
+Route::get('/delete_department/{emp_id}','QueryController@delete_department');
+Route::get('/delete_employee/{emp_id}','QueryController@delete_employee');
+Route::get('/delete_project/{id}','QueryController@delete_project');
+Route::get('/delete_salary/{id}','QueryController@delete_salary');
+Route::get('/delete_ft_pt/{id}','QueryController@delete_ft_pt');
+

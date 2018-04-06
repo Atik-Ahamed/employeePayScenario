@@ -59,8 +59,8 @@ h1 {
 .dark-menu {
     background: #33353c;
     width: 200px;
-    height: 100%;
-    border-radius: 2px 0 0 2px;
+    height: 700px;
+    border-radius: 7px 7px 7px 7px;
     text-align: center;
     float: left;
 }
