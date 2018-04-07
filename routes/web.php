@@ -100,6 +100,7 @@ Route::post('assign_to_employee','AdminController@assign_to_employee');
 Route::get('/get_project_name/{id}','QueryController@get_project_name');
 Route::get('/get_employee_name/{id}','QueryController@get_employee_name');
 Route::get('/get_department_name/{id}','QueryController@get_department_name');
+Route::get('/get_type_of_work/{id}','QueryController@get_type_of_work');
 Route::get('/all_employees',function (){
     $emp=Employee::all();
     return view('all_employees')->with('datas',$emp);

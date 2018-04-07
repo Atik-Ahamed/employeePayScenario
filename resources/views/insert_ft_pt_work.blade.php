@@ -98,7 +98,7 @@
                 success: function (msg) {
 
                     $('#employee_name').text(msg);
-                    var new_get_url = '{{url('/get_salary')}}';
+                    var new_get_url = '{{url('/get_type_of_work')}}';
                     new_get_url = new_get_url + '/' + $('#emp_id').val();
                     $.ajax({
                         type: "GET",
@@ -107,17 +107,18 @@
 
                             _token: $('meta[name=csrf-token]').attr('content')
                         },
-                        success: function (msg) {
-                            msg = JSON.parse(msg);
+                        success: function (tp) {
 
-                            if (msg.type_of_work === 'F') {
+                            if (tp=== 'F') {
                                 $('#num_of_hours').attr({
-                                    "value": 8
-
+                                    "value": 8,
+                                    "readonly": true
                                 });
                             }
                             else {
-
+                                $('#num_of_hours').attr({
+                                    "readonly": false
+                                });
 
                             }
                         }

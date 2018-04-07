@@ -64,8 +64,9 @@ class AdminController extends Controller
             $bas = $sal->basic = $query->hrs * $emp->hourlyrate;
             $sal->net_salary = $bas + 0.45 * $bas - (.09 * $bas + .15 * $bas);
             $sal->save();
-            return redirect('/');
+
         }
+        return redirect(url('/all_ft_pt'));
     }
 
     public function insert_salary(Request $request)

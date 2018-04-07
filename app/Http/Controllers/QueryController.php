@@ -266,6 +266,11 @@ WHERE
                             employees.id = salaries.emp_id AND employees.id=$emp_id");
         echo json_encode($query);
     }
+    public function get_type_of_work($emp_id)
+    {
+        $query = Employee::find($emp_id);
+        echo $query->type_of_work;
+    }
 
     public function get_project_name($id)
     {
