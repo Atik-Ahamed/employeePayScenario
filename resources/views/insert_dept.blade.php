@@ -7,12 +7,12 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Department Name
-                        <input type="text" id="emp_name" name="dept_name">
+                        <input type="text" id="emp_name" name="dept_name" required>
                     </label>
                 </div>
                 <div class="form-group">
                     <label>Department Location
-                        <input type="text" id="emp_name" name="dept_location">
+                        <input type="text" id="emp_name" name="dept_location" required>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

@@ -7,19 +7,19 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Project ID:
-                        <input type="number" id="project_id" name="project_id">
+                        <input type="number" id="project_id" name="project_id" required>
                     </label>
                     <p id="project_name"></p>
                 </div>
                 <div class="form-group">
                     <label>Employee ID:
-                        <input type="number" id="emp_id" name="emp_id">
+                        <input type="number" id="emp_id" name="emp_id" required>
                     </label>
                     <p id="employee_name"></p>
                 </div>
                 <div class="form-group">
                     <label>Department ID:
-                        <input type="number" id="dept_id" name="dept_id">
+                        <input type="number" id="dept_id" name="dept_id" required>
                         <p id="department_name"></p>
 
                     </label>
@@ -27,12 +27,12 @@
                 </div>
                 <div class="form-group">
                     <label>Number of Hours:
-                        <input type="number" id="num_of_hours" name="num_of_hours" min="1" max="8">
+                        <input type="number" id="num_of_hours" name="num_of_hours" min="1" max="8" required>
                     </label>
                 </div>
                 <div class="form-group">
                     <label>Works Date:
-                        <input type="date" id="works_date" name="works_date">
+                        <input type="date" id="works_date" name="works_date" required>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

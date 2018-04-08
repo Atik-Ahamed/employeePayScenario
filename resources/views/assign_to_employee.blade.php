@@ -5,13 +5,13 @@
         {{ csrf_field() }}
         <div class="form-group">
             <label>Employee ID:
-                <input type="number" id="emp_id" name="emp_id">
+                <input type="number" id="emp_id" name="emp_id" required>
             </label>
             <p id="employee_name"></p>
         </div>
         <div class="form-group">
             <label>Department ID:
-                <input type="number" id="dept_id" name="dept_id">
+                <input type="number" id="dept_id" name="dept_id" required>
             </label>
             <p id="department_name"></p>
         </div>

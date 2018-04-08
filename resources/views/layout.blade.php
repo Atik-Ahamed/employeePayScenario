@@ -23,7 +23,7 @@
 
 
 </head>
-<body id="body">
+<body id="body" style="background-image: url({{url('/images/bg-6-full.jpg')}})">
 <div id="app">
 
     @if ($errors->any())
@@ -137,7 +137,7 @@
         <br>
         <br>
         <br>
-        <footer class="py-5 bg-dark">
+        <footer class="py-5 bg-dark" style="margin-top: 200px;">
             <div class="container">
                 <p class="m-0 text-center text-white">Created by 1503087,1503088,1503089,1503090,1503091,1503092</p>
                 <p class="m-0 text-center text-white">Copyright &copy; Huon Contractors Pty Ltd 2018</p>

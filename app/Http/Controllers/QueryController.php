@@ -266,6 +266,7 @@ WHERE
                             employees.id = salaries.emp_id AND employees.id=$emp_id");
         echo json_encode($query);
     }
+
     public function get_type_of_work($emp_id)
     {
         $query = Employee::find($emp_id);
@@ -292,34 +293,68 @@ WHERE
         echo $name->dept_name;
 
     }
-    public function delete_address($emp_id){
-        $ad=Address::find($emp_id);
+
+    public function delete_address($emp_id)
+    {
+        $ad = Address::find($emp_id);
         $ad->delete();
         return redirect(url('/all_addresses'));
     }
-    public function delete_department($id){
-        $d=Department::find($id);
+
+    public function delete_department($id)
+    {
+        $d = Department::find($id);
         $d->delete();
         return redirect(url('/all_departments'));
     }
-    public function delete_employee($id){
-        $d=Employee::find($id);
+
+    public function delete_employee($id)
+    {
+        $d = Employee::find($id);
         $d->delete();
         return redirect(url('/all_employees'));
     }
-    public function delete_project($id){
-        $p=Project::find($id);
+
+    public function delete_project($id)
+    {
+        $p = Project::find($id);
         $p->delete();
         return redirect(url('/all_projects'));
     }
-    public function delete_salary($id){
-        $s=Salary::find($id);
+
+    public function delete_salary($id)
+    {
+        $s = Salary::find($id);
         $s->delete();
         return redirect(url('all_salaries'));
     }
-    public function delete_ft_pt($id){
-        $s=Full_time_part_time::find($id);
+
+    public function delete_ft_pt($id)
+    {
+        $s = Full_time_part_time::find($id);
         $s->delete();
         return redirect(url('all_ft_pt'));
+    }
+
+    public function get_part_time_basic($emp_id)
+    {
+        $query = DB::selectOne(" SELECT
+                    SUM(
+                      full_time_part_times.num_of_hours
+                    ) AS hrs
+                FROM
+                    (
+                    SELECT
+                        full_time_part_times.num_of_hours
+                    FROM
+                        full_time_part_times
+                    WHERE
+                        full_time_part_times.emp_id =$emp_id
+                        AND full_time_part_times.works_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE()) full_time_part_times");
+        $emp = Employee::find($emp_id);
+        $b = $query;
+        $basic = $b->hrs * $emp->hourlyrate;
+        echo $basic;
+
     }
 }
