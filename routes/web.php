@@ -163,6 +163,7 @@ WHERE
      AND projects.project_id=full_time_part_times.project_id
       AND full_time_part_times.dept_id=departments.dept_id");
     return view('all_ft_pt')->with('datas',$ftpt);
+<<<<<<< HEAD
 })->middleware('admin');
 Route::get('/address/delete/{emp_id}','QueryController@delete_address')->middleware('admin');
 Route::get('/delete_department/{emp_id}','QueryController@delete_department')->middleware('admin');
@@ -171,4 +172,14 @@ Route::get('/delete_project/{id}','QueryController@delete_project')->middleware(
 Route::get('/delete_salary/{id}','QueryController@delete_salary')->middleware('admin');
 Route::get('/delete_ft_pt/{id}','QueryController@delete_ft_pt')->middleware('admin');
 Route::get('/get_part_time_basic/{id}','QueryController@get_part_time_basic')->middleware('admin');
+=======
+});
+Route::get('/address/delete/{emp_id}','QueryController@delete_address');
+Route::get('/delete_department/{emp_id}','QueryController@delete_department');
+Route::get('/delete_employee/{emp_id}','QueryController@delete_employee');
+Route::get('/delete_project/{id}','QueryController@delete_project');
+Route::get('/delete_salary/{id}','QueryController@delete_salary');
+Route::get('/delete_ft_pt/{id}','QueryController@delete_ft_pt');
+Route::get('/get_part_time_basic/{id}','QueryController@get_part_time_basic');
+>>>>>>> 077fab6ff99a76841d67097d5f3181ec29fa4550
 
