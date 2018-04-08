@@ -21,7 +21,10 @@
 
 body {
     padding-top: 54px;
+
+
 }
+
 
 @media (min-width: 992px) {
     body {
@@ -259,4 +262,5 @@ nav a:hover::before {
     font-size: 12px;
     text-align: center;
 }
+
 

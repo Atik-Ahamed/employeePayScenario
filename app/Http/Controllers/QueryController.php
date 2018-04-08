@@ -32,7 +32,7 @@ class QueryController extends Controller
                                         full_time_part_times
                                     WHERE
                                         full_time_part_times.emp_id = employees.id
-                                        AND full_time_part_times.dept_id = departments.dept_id
+                                        AND employees.dept_id = departments.dept_id
                                         AND departments.dept_name = 'Engineering' 
                                         AND full_time_part_times.project_id = projects.project_id 
                                         AND projects.project_name = '$request->project_name'
@@ -53,7 +53,7 @@ class QueryController extends Controller
                     ) / COUNT(
                         full_time_part_times.works_date
                     )
-                ) * 5 AS PerWeek
+                ) * 7 AS PerWeek
             FROM
                 employees,
                 projects,
@@ -67,10 +67,9 @@ class QueryController extends Controller
                 AND projects.project_name = '$request->project_name' 
                 AND projects.project_location = '$request->project_location'
                 AND full_time_part_times.works_date BETWEEN '$request->pre_date' AND '$request->post_date'
-                HAVING  (  SUM(full_time_part_times.num_of_hours ) / COUNT(full_time_part_times.works_date ) ) * 5>$request->num_of_hours
-            
-            ORDER BY
-                employees.id");
+                GROUP BY
+                employees.id
+                HAVING  (  SUM(full_time_part_times.num_of_hours ) / COUNT(full_time_part_times.works_date ) ) * 7>$request->num_of_hours");
         //dd($query);
         return view('query_two')->with('datas', $query);
     }
@@ -93,7 +92,7 @@ class QueryController extends Controller
                     full_time_part_times
                 WHERE
                     full_time_part_times.emp_id = employees.id 
-                    AND full_time_part_times.dept_id = departments.dept_id 
+                    AND employees.dept_id = departments.dept_id 
                     AND projects.project_id = full_time_part_times.project_id 
                     AND projects.project_location = '$request->project_location' 
                     AND departments.dept_location != '$request->dept_location'
@@ -266,6 +265,7 @@ WHERE
                             employees.id = salaries.emp_id AND employees.id=$emp_id");
         echo json_encode($query);
     }
+
     public function get_type_of_work($emp_id)
     {
         $query = Employee::find($emp_id);
@@ -292,34 +292,68 @@ WHERE
         echo $name->dept_name;
 
     }
-    public function delete_address($emp_id){
-        $ad=Address::find($emp_id);
+
+    public function delete_address($emp_id)
+    {
+        $ad = Address::find($emp_id);
         $ad->delete();
         return redirect(url('/all_addresses'));
     }
-    public function delete_department($id){
-        $d=Department::find($id);
+
+    public function delete_department($id)
+    {
+        $d = Department::find($id);
         $d->delete();
         return redirect(url('/all_departments'));
     }
-    public function delete_employee($id){
-        $d=Employee::find($id);
+
+    public function delete_employee($id)
+    {
+        $d = Employee::find($id);
         $d->delete();
         return redirect(url('/all_employees'));
     }
-    public function delete_project($id){
-        $p=Project::find($id);
+
+    public function delete_project($id)
+    {
+        $p = Project::find($id);
         $p->delete();
         return redirect(url('/all_projects'));
     }
-    public function delete_salary($id){
-        $s=Salary::find($id);
+
+    public function delete_salary($id)
+    {
+        $s = Salary::find($id);
         $s->delete();
         return redirect(url('all_salaries'));
     }
-    public function delete_ft_pt($id){
-        $s=Full_time_part_time::find($id);
+
+    public function delete_ft_pt($id)
+    {
+        $s = Full_time_part_time::find($id);
         $s->delete();
         return redirect(url('all_ft_pt'));
+    }
+
+    public function get_part_time_basic($emp_id)
+    {
+        $query = DB::selectOne(" SELECT
+                    SUM(
+                      full_time_part_times.num_of_hours
+                    ) AS hrs
+                FROM
+                    (
+                    SELECT
+                        full_time_part_times.num_of_hours
+                    FROM
+                        full_time_part_times
+                    WHERE
+                        full_time_part_times.emp_id =$emp_id
+                        AND full_time_part_times.works_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE()) full_time_part_times");
+        $emp = Employee::find($emp_id);
+        $b = $query;
+        $basic = $b->hrs * $emp->hourlyrate;
+        echo $basic;
+
     }
 }

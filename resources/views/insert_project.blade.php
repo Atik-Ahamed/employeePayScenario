@@ -7,12 +7,12 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Project Name
-                        <input type="text" id="emp_name" name="project_name">
+                        <input type="text" id="emp_name" name="project_name" required>
                     </label>
                 </div>
                 <div class="form-group">
                     <label>Project Location
-                        <input type="text" id="emp_name" name="project_location">
+                        <input type="text" id="emp_name" name="project_location" required>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

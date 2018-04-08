@@ -8,10 +8,16 @@ use App\Full_time_part_time;
 use App\Project;
 use App\Salary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function insert_dept(Request $request)
     {
         $dept = new Department();
@@ -41,7 +47,7 @@ class AdminController extends Controller
         $ft_pt_work->save();
 
         $emp = Employee::find($request->emp_id);
-        if ($emp->type_of_work =='P') {
+        if ($emp->type_of_work == 'P') {
             $sal = Salary::find($request->emp_id);
             if ($sal == null) {
                 $sal = new Salary();

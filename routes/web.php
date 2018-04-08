@@ -76,43 +76,43 @@ Route::get('/query_preform/4',function (){
 
 Route::get('/insert_department',function (){
     return view('insert_dept');
-});
-Route::post('/insert_department','AdminController@insert_dept');
+})->middleware('admin');
+Route::post('/insert_department','AdminController@insert_dept')->middleware('admin');
 
 Route::get('/insert_project',function (){
     return view('insert_project');
-});
-Route::post('/insert_project','AdminController@insert_project');
+})->middleware('admin');
+Route::post('/insert_project','AdminController@insert_project')->middleware('admin');
 
 Route::get('/insert_ft_pt_work',function (){
     return view('insert_ft_pt_work');
-});
-Route::post('/insert_ft_pt_work','AdminController@insert_ft_pt_work');
+})->middleware('admin');
+Route::post('/insert_ft_pt_work','AdminController@insert_ft_pt_work')->middleware('admin');
 Route::get('/insert_salary',function (){
     return view('insert_salary');
-});
-Route::post('/insert_salary','AdminController@insert_salary');
-Route::get('/get_salary/{emp_id}','QueryController@get_salary');
+})->middleware('admin');
+Route::post('/insert_salary','AdminController@insert_salary')->middleware('admin');
+Route::get('/get_salary/{emp_id}','QueryController@get_salary')->middleware('admin');
 Route::get('/assign_to_employee',function (){
     return view('assign_to_employee');
-});
-Route::post('assign_to_employee','AdminController@assign_to_employee');
-Route::get('/get_project_name/{id}','QueryController@get_project_name');
-Route::get('/get_employee_name/{id}','QueryController@get_employee_name');
-Route::get('/get_department_name/{id}','QueryController@get_department_name');
+})->middleware('admin');
+Route::post('assign_to_employee','AdminController@assign_to_employee')->middleware('admin');
+Route::get('/get_project_name/{id}','QueryController@get_project_name')->middleware('admin');
+Route::get('/get_employee_name/{id}','QueryController@get_employee_name')->middleware('admin');
+Route::get('/get_department_name/{id}','QueryController@get_department_name')->middleware('admin');
 Route::get('/get_type_of_work/{id}','QueryController@get_type_of_work');
 Route::get('/all_employees',function (){
     $emp=Employee::all();
     return view('all_employees')->with('datas',$emp);
-});
+})->middleware('admin');
 Route::get('/all_departments',function (){
     $dept=Department::all();
     return view('all_departments')->with('datas',$dept);
-});
+})->middleware('admin');
 Route::get('/all_projects',function (){
     $proj=Project::all();
     return view('all_projects')->with('datas',$proj);
-});
+})->middleware('admin');
 Route::get('/all_salaries',function (){
     $sal=DB::select("SELECT
     employees.name,
@@ -126,7 +126,7 @@ FROM
 WHERE
     employees.id = salaries.emp_id");
     return view('all_salaries')->with('datas',$sal);
-});
+})->middleware('admin');
 Route::get('/all_addresses',function (){
     $ad=DB::select("SELECT
     employees.name,
@@ -141,7 +141,7 @@ FROM
 WHERE
     employees.id = addresses.emp_id");
     return view('all_addresses')->with('datas',$ad);
-});
+})->middleware('admin');
 Route::get('/all_ft_pt',function (){
     $ftpt=DB::select("SELECT
    employees.name,
@@ -163,11 +163,12 @@ WHERE
      AND projects.project_id=full_time_part_times.project_id
       AND full_time_part_times.dept_id=departments.dept_id");
     return view('all_ft_pt')->with('datas',$ftpt);
-});
-Route::get('/address/delete/{emp_id}','QueryController@delete_address');
-Route::get('/delete_department/{emp_id}','QueryController@delete_department');
-Route::get('/delete_employee/{emp_id}','QueryController@delete_employee');
-Route::get('/delete_project/{id}','QueryController@delete_project');
-Route::get('/delete_salary/{id}','QueryController@delete_salary');
-Route::get('/delete_ft_pt/{id}','QueryController@delete_ft_pt');
+})->middleware('admin');
+Route::get('/address/delete/{emp_id}','QueryController@delete_address')->middleware('admin');
+Route::get('/delete_department/{emp_id}','QueryController@delete_department')->middleware('admin');
+Route::get('/delete_employee/{emp_id}','QueryController@delete_employee')->middleware('admin');
+Route::get('/delete_project/{id}','QueryController@delete_project')->middleware('admin');
+Route::get('/delete_salary/{id}','QueryController@delete_salary')->middleware('admin');
+Route::get('/delete_ft_pt/{id}','QueryController@delete_ft_pt')->middleware('admin');
+Route::get('/get_part_time_basic/{id}','QueryController@get_part_time_basic')->middleware('admin');
 
