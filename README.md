@@ -1,2 +1,2 @@
 # employeePayScenario
-# Required softwares: 
+# Required softwares: Xampp,Google chrome
